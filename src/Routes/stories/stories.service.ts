@@ -10,18 +10,25 @@ export class StoriesService {
   sayHello() {
     return 'Hello';
   }
+  async findStory(storyId) {
+    const story = await this.storiesPrismaService.findStory({ storyId });
+    return story;
+  }
+  async findAllStories() {
+    return await this.storiesPrismaService.getAllStories();
+  }
 
-  async saveToDatabase(
-    title: string,
-    caption: string,
-    content: string,
-    contentSize: string,
-    background: string,
-    placement: string,
-    headingSize: string,
-    userId: string,
-  ) {
+  async saveToDatabase(data, userId) {
     try {
+      const {
+        title,
+        caption,
+        content,
+        headingSize,
+        contentSize,
+        placement,
+        background,
+      } = data;
       const storyId = customAlphabet(alphabet, 18);
       const story = await this.storiesPrismaService.createStory({
         title,

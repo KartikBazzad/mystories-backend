@@ -6,6 +6,7 @@ import { AppService } from './app.service';
 import { PrismaService } from './prisma/prisma.service';
 import { AuthModule } from './Routes/auth/auth.module';
 import { JwtAuthGuard } from './Routes/auth/guards/jwt.auth.guard';
+import { ProfileModule } from './Routes/profile/profile.module';
 import { StoriesModule } from './Routes/stories/stories.module';
 
 @Module({
@@ -13,6 +14,7 @@ import { StoriesModule } from './Routes/stories/stories.module';
     PassportModule.register({ session: true }),
     StoriesModule,
     AuthModule,
+    ProfileModule,
   ],
   controllers: [AppController],
   providers: [

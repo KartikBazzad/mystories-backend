@@ -27,4 +27,12 @@ export class AuthController {
   getProfile(@Req() req: Request) {
     return req.user;
   }
+
+  @Get('logout')
+  @UseGuards(JwtAuthGuard)
+  logout(@Req() req: Request, @Res() res: Response) {
+    req.logOut();
+    res.cookie('auth', '', { maxAge: 1000 });
+    return res.send('Logged Out Successfully');
+  }
 }
