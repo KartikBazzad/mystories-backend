@@ -25,7 +25,6 @@ export class GoogleStrategy extends PassportStrategy(Strategy) {
     done: CallableFunction,
   ) {
     try {
-      console.log(profile);
       const findUser = await this.authService.validate(profile.id);
       if (!findUser) {
         const userId = customAlphabet(alphabet, 12);

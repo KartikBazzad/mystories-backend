@@ -24,12 +24,12 @@ model stories {
   id              Int      @id @default(autoincrement())
   storyId         String   @unique
   title           String
+  caption         String   @db.LongText
   content         String   @db.LongText
+  headingSize     String
+  contentSize     String
   background      String
   placement       String
-  caption         String   @db.LongText
-  titleSettings   String   @db.LongText
-  contentSettings String   @db.LongText
   userId          String
   user            Users    @relation(fields: [userId], references: [userId])
   likes           Int      @default(0)
