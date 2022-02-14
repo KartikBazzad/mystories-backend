@@ -10,6 +10,29 @@ export class UserPrismaService {
   async findUser(where: Prisma.UsersWhereUniqueInput) {
     return await this.prisma.users.findUnique({ where });
   }
+  async getUserDetails(where: Prisma.UsersWhereUniqueInput) {
+    return await this.prisma.users.findUnique({
+      where,
+      select: {
+        email: false,
+        stories: {
+          include: {
+            user: {
+              select: {
+                username: true,
+                userId: true,
+                photo: true,
+              },
+            },
+          },
+        },
+        userId: true,
+        username: true,
+        photo: true,
+        googleId: false,
+      },
+    });
+  }
   async updateUser(params: {
     where: Prisma.UsersWhereUniqueInput;
     data: Prisma.UsersUpdateInput;

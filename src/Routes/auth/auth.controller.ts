@@ -32,7 +32,7 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   logout(@Req() req: Request, @Res() res: Response) {
     req.logOut();
-    res.cookie('auth', '', { maxAge: 1000 });
-    return res.send('Logged Out Successfully');
+    res.cookie('auth', '', { maxAge: 10 });
+    return res.status(200).send('Logged Out');
   }
 }
