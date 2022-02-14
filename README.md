@@ -9,13 +9,18 @@ DATABASE_URL= `database connection string`
 GOOGLE_CLIENT_ID = `google client id`
 GOOGLE_CLIENT_SECRET = `google client secret`
 REDIRECT_URL = `http://localhost:5000/auth/redirect`
+
+<!-- redirect url specified in the google cloud when creating credentials -->
+
 JSON_WEBTOKEN_SECRET = `json web token secret`
 
-## Built using Nestjs
+# Tech Stack
 
-## Database used MYSQL
-
-## ORM used PrismaORM
+- Backend - Nest.js
+- frontend - Next.js
+- Database - mysql
+- ORM - prisma
+- Styling - TailwindCSS
 
 # Commands
 
