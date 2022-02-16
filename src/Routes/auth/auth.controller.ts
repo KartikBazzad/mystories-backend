@@ -23,6 +23,7 @@ export class AuthController {
       maxAge: 60 * 60 * 2000,
       httpOnly: true,
       path: '/',
+      sameSite: false,
     });
     console.log('sending cookies');
     return res.redirect(process.env.FRONTEND_URL as string);
