@@ -35,7 +35,7 @@ export class StoryPrismaService {
   async getAllStories() {
     return await this.prisma.stories.findMany({
       orderBy: {
-        createdOn: 'asc',
+        createdOn: 'desc',
       },
       include: {
         user: {
