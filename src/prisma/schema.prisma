@@ -35,3 +35,4 @@ model stories {
   likes           Int      @default(0)
   createdOn       DateTime @default(now())
 }
+
