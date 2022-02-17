@@ -22,7 +22,6 @@ export class AuthController {
     res.cookie('auth', token, {
       maxAge: 60 * 60 * 2000,
       httpOnly: true,
-      path: '/',
       sameSite: 'none',
     });
     console.log('sending cookies');
