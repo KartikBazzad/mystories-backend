@@ -21,6 +21,8 @@ export class AuthController {
     const token = await (await this.authService.login(req.user)).access_token;
     res.cookie('auth', token, {
       maxAge: 60 * 60 * 2000,
+      sameSite: 'none',
+      secure: false,
     });
     console.log('sending cookies');
     return res.redirect(process.env.FRONTEND_URL as string);
@@ -35,7 +37,7 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   logout(@Req() req: Request, @Res() res: Response) {
     req.logOut();
-    res.cookie('auth', '', { maxAge: 10 });
+    res.cookie('auth', '', { maxAge: 1000 });
     return res.status(200).send('Logged Out');
   }
 }
