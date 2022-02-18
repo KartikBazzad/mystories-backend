@@ -13,7 +13,7 @@ async function bootstrap() {
   );
   app.use(passport.initialize());
   await app.listen(parseInt(process.env.PORT as string), () => {
-    console.log('Server running on port 5000')
+    console.log('Server running on port 5000 ')
   });
 }
 bootstrap();
