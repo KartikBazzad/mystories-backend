@@ -19,10 +19,8 @@ export class AuthController {
   @Get('redirect')
   async redirect(@Req() req: Request, @Res() res: Response) {
     const token = await (await this.authService.login(req.user)).access_token;
-    res.cookie('auth', token, {
+    res.cookie('auth_token', token, {
       maxAge: 60 * 60 * 2000,
-      sameSite: 'none',
-      secure: false,
     });
     console.log(token);
     console.log('sending cookies');
