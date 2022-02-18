@@ -12,6 +12,8 @@ async function bootstrap() {
     morgan(':method :url :status :res[content-length] - :response-time ms'),
   );
   app.use(passport.initialize());
-  await app.listen(parseInt(process.env.PORT as string));
+  await app.listen(parseInt(process.env.PORT as string), () => {
+    console.log('Server running on port 5000')
+  });
 }
 bootstrap();
