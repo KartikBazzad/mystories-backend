@@ -21,7 +21,6 @@ export class AuthController {
     const token = await (await this.authService.login(req.user)).access_token;
     res.cookie('auth', token, {
       maxAge: 60 * 60 * 2000,
-      httpOnly: true,
       sameSite: 'none',
     });
     console.log('sending cookies');
