@@ -24,6 +24,8 @@ export class AuthController {
       sameSite: 'none',
       secure: false,
     });
+    console.log(token);
+    console.log(req.cookies);
     console.log('sending cookies');
     return res.redirect(process.env.FRONTEND_URL as string);
   }
