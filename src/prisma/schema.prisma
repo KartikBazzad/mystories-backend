@@ -16,7 +16,7 @@ model Users {
   googleId String @unique
   username String
   email    String    @unique
-  photo    String    @db.LongText
+  photo    String?    @db.LongText
   stories  stories[]
 }
 
