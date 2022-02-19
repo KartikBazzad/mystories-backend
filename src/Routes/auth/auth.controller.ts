@@ -3,6 +3,7 @@ import {
   Get,
   Inject,
   Next,
+  Redirect,
   Req,
   Res,
   UseGuards,
@@ -25,29 +26,13 @@ export class AuthController {
   @Public()
   @UseGuards(GoogleAuthGuard)
   @Get('redirect')
-  async redirect(
-    @Req() req: Request,
-    @Res() res: Response,
-    @Next() next: NextFunction,
-  ) {
-    const token = await (await this.authService.login(req.user)).access_token;
-    res.cookie('auth_token', token, {
+  @Redirect()
+  async redirectUser(@Req() req: Request, @Res() res: Response) {
+    const token = (await this.authService.login(req.user)).access_token;
+    res.cookie('auth', token, {
       maxAge: 60 * 60 * 2000,
-      sameSite: 'none',
-      secure: false,
     });
-    res.setHeader(
-      'Set-Cookie',
-      cookie.serialize('auth', token, {
-        maxAge: 60 * 60 * 2000,
-        sameSite: 'none',
-        secure: false,
-      }),
-    );
-    console.log(token);
-    console.log('sending cookies');
-    res.redirect(process.env.FRONTEND_URL as string);
-    next();
+    return res.redirect(302, `${process.env.FRONTEND_URL as string}/`);
   }
   @Get('profile')
   @UseGuards(JwtAuthGuard)
