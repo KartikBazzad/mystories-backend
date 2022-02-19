@@ -28,12 +28,8 @@ export class AuthController {
   @Get('redirect')
   async redirectUser(@Req() req: Request, @Res() res: Response) {
     const token = (await this.authService.login(req.user)).access_token;
-    res.cookie('auth', token, {
-      maxAge: 60 * 60 * 2000,
-      domain: 'ondigitalocean.app',
-    });
     return res.redirect(
-      `https://my-stories-frontend-ovnge.ondigitalocean.app/`,
+      `${process.env.FRONTEND_URL as string}/login?token=${token}`,
     );
   }
   @Get('profile')
