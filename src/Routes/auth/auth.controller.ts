@@ -4,7 +4,7 @@ import { Public } from 'src/utils/constants';
 import { GoogleAuthGuard } from './guards/google.auth.guard';
 import { JwtAuthGuard } from './guards/jwt.auth.guard';
 import { AuthService } from './services/auth.service';
-
+import * as cookie from 'cookie';
 @Controller('auth')
 export class AuthController {
   constructor(@Inject('AUTH_SERVICE') private authService: AuthService) {}
@@ -24,6 +24,14 @@ export class AuthController {
       sameSite: 'none',
       secure: false,
     });
+    res.setHeader(
+      'Set-Cookie',
+      cookie.serialize('auth', token, {
+        maxAge: 60 * 60 * 2000,
+        sameSite: 'none',
+        secure: false,
+      }),
+    );
     console.log(token);
     console.log('sending cookies');
     return res.redirect(process.env.FRONTEND_URL as string);

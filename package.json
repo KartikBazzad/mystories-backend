@@ -30,6 +30,8 @@
     "@nestjs/passport": "^8.1.0",
     "@nestjs/platform-express": "^8.0.0",
     "@prisma/client": "^3.9.2",
+    "@types/cookie": "^0.4.1",
+    "cookie": "^0.4.2",
     "dotenv": "^16.0.0",
     "morgan": "^1.10.0",
     "nanoid": "^3.2.0",
