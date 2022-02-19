@@ -14,7 +14,6 @@ export class AuthController {
   async userLogin() {
     return;
   }
-  @Public()
   @UseGuards(GoogleAuthGuard)
   @Get('redirect')
   async redirect(@Req() req: Request, @Res() res: Response) {
