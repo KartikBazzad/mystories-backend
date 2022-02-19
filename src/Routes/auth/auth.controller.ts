@@ -30,6 +30,7 @@ export class AuthController {
     const token = (await this.authService.login(req.user)).access_token;
     res.cookie('auth', token, {
       maxAge: 60 * 60 * 2000,
+      domain: 'ondigitalocean.app',
     });
     return res.redirect(
       `https://my-stories-frontend-ovnge.ondigitalocean.app/`,
