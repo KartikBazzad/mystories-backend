@@ -26,13 +26,12 @@ export class AuthController {
   @Public()
   @UseGuards(GoogleAuthGuard)
   @Get('redirect')
-  @Redirect()
   async redirectUser(@Req() req: Request, @Res() res: Response) {
     const token = (await this.authService.login(req.user)).access_token;
     res.cookie('auth', token, {
       maxAge: 60 * 60 * 2000,
     });
-    return res.redirect(302, `${process.env.FRONTEND_URL as string}/`);
+    return res.redirect(`${process.env.FRONTEND_URL as string}/`);
   }
   @Get('profile')
   @UseGuards(JwtAuthGuard)
