@@ -1,5 +1,13 @@
-import { Controller, Get, Inject, Req, Res, UseGuards } from '@nestjs/common';
-import { Request, Response } from 'express';
+import {
+  Controller,
+  Get,
+  Inject,
+  Next,
+  Req,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
+import { NextFunction, Request, Response } from 'express';
 import { Public } from 'src/utils/constants';
 import { GoogleAuthGuard } from './guards/google.auth.guard';
 import { JwtAuthGuard } from './guards/jwt.auth.guard';
@@ -17,7 +25,11 @@ export class AuthController {
   @Public()
   @UseGuards(GoogleAuthGuard)
   @Get('redirect')
-  async redirect(@Req() req: Request, @Res() res: Response) {
+  async redirect(
+    @Req() req: Request,
+    @Res() res: Response,
+    @Next() next: NextFunction,
+  ) {
     const token = await (await this.authService.login(req.user)).access_token;
     res.cookie('auth_token', token, {
       maxAge: 60 * 60 * 2000,
@@ -34,7 +46,8 @@ export class AuthController {
     );
     console.log(token);
     console.log('sending cookies');
-    return res.redirect(process.env.FRONTEND_URL as string);
+    res.redirect(process.env.FRONTEND_URL as string);
+    next();
   }
   @Get('profile')
   @UseGuards(JwtAuthGuard)
