@@ -31,7 +31,9 @@ export class AuthController {
     res.cookie('auth', token, {
       maxAge: 60 * 60 * 2000,
     });
-    return res.redirect(`${process.env.FRONTEND_URL as string}/`);
+    return res.redirect(
+      `https://my-stories-frontend-ovnge.ondigitalocean.app/`,
+    );
   }
   @Get('profile')
   @UseGuards(JwtAuthGuard)
