@@ -12,6 +12,11 @@ export class StoryPrismaService {
         user: {
           select: { username: true, userId: true, photo: true },
         },
+        _count: {
+          select: {
+            storyLike: true,
+          },
+        },
       },
     });
   }
@@ -45,6 +50,11 @@ export class StoryPrismaService {
             photo: true,
           },
         },
+        _count: {
+          select: {
+            storyLike: true,
+          },
+        },
       },
     });
   }
@@ -59,6 +69,25 @@ export class StoryPrismaService {
             photo: true,
           },
         },
+        _count: {
+          select: {
+            storyLike: true,
+          },
+        },
+      },
+    });
+  }
+  async createLikes(data: Prisma.storyLikeCreateInput) {
+    return await this.prisma.storyLike.create({ data });
+  }
+  async findLike(where: Prisma.storyLikeWhereInput) {
+    return await this.prisma.storyLike.findFirst({ where });
+  }
+  async deleteLike(where: Prisma.storyLikeWhereInput) {
+    const like = await this.prisma.storyLike.findFirst({ where });
+    return await this.prisma.storyLike.delete({
+      where: {
+        id: like?.id,
       },
     });
   }

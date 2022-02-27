@@ -13,4 +13,33 @@ export class ProfileService {
     });
     return userProfile;
   }
+  async followNewUser(userId: string, profileId: string) {
+    const follower = await this.usersPrismaService.followNewUser({
+      follower: {
+        connect: {
+          userId: userId,
+        },
+      },
+      user: {
+        connect: {
+          userId: profileId,
+        },
+      },
+    });
+    return follower;
+  }
+  async checkForFollow(followerId: string, profileId: string) {
+    const follower = await this.usersPrismaService.findFollower({
+      userId: profileId,
+      followerId: followerId,
+    });
+    return follower;
+  }
+  async unfollowUser(userId: string, profileId: string) {
+    const unfollowUser = await this.usersPrismaService.unfollowUser({
+      followerId: userId,
+      userId: profileId,
+    });
+    return unfollowUser;
+  }
 }

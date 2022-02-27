@@ -17,6 +17,36 @@ export class StoriesService {
   async findAllStories() {
     return await this.storiesPrismaService.getAllStories();
   }
+  async findLike(userId, storyId) {
+    const storyLike = await this.storiesPrismaService.findLike({
+      userId,
+      storyId,
+    });
+    return storyLike;
+  }
+
+  async updateLikes(storyId, userId) {
+    const story = await this.storiesPrismaService.createLikes({
+      story: {
+        connect: {
+          storyId,
+        },
+      },
+      user: {
+        connect: {
+          userId,
+        },
+      },
+    });
+    return story;
+  }
+  async deleteLike(storyId, userId) {
+    const story = await this.storiesPrismaService.findLike({ userId, storyId });
+    const deleteStory = await this.storiesPrismaService.deleteLike({
+      id: story?.id,
+    });
+    return 'deleted';
+  }
 
   async saveToDatabase(data, userId) {
     try {

@@ -11,28 +11,48 @@ datasource db {
 }
 
 model Users {
-  id       Int       @id @default(autoincrement())
-  userId   String    @unique
-  googleId String @unique
-  username String
-  email    String    @unique
-  photo    String?    @db.LongText
-  stories  stories[]
+  id        Int         @id @default(autoincrement())
+  userId    String      @unique
+  googleId  String      @unique
+  username  String
+  email     String      @unique
+  photo     String?     @db.LongText
+  stories   stories[]
+  followers followers[] @relation("follower")
+  storyLike storyLike[]
+  followedUser    followers[] @relation("user_followed")
 }
 
 model stories {
-  id              Int      @id @default(autoincrement())
-  storyId         String   @unique
-  title           String
-  caption         String   @db.LongText
-  content         String   @db.LongText
-  headingSize     String
-  contentSize     String
-  background      String
-  placement       String
-  userId          String
-  user            Users    @relation(fields: [userId], references: [userId])
-  likes           Int      @default(0)
-  createdOn       DateTime @default(now())
+  id          Int         @id @default(autoincrement())
+  storyId     String      @unique
+  title       String
+  caption     String      @db.LongText
+  content     String      @db.LongText
+  headingSize String
+  contentSize String
+  background  String
+  placement   String
+  userId      String
+  user        Users       @relation(fields: [userId], references: [userId])
+  likes       Int         @default(0)
+  createdOn   DateTime    @default(now())
+  storyLike   storyLike[]
 }
 
+model followers {
+  id         Int      @id @default(autoincrement())
+  followerId String
+  follower   Users    @relation(name: "follower", fields: [followerId], references: [userId])
+  userId     String
+  user       Users    @relation(name: "user_followed", fields: [userId], references: [userId])
+  followedOn DateTime @default(now())
+}
+
+model storyLike {
+  id      Int     @id @default(autoincrement())
+  storyId String
+  story   stories @relation(fields: [storyId], references: [storyId])
+  userId  String
+  user    Users   @relation(fields: [userId], references: [userId])
+}

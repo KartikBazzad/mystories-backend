@@ -1,6 +1,6 @@
 import {
-  Body,
   Controller,
+  Delete,
   Get,
   Param,
   Post,
@@ -35,5 +35,38 @@ export class StoriesController {
   async getStoryDetails(@Param('storyId') storyId: string) {
     const story = await this.storyService.findStory(storyId);
     return story;
+  }
+  @Public()
+  @Get('/:storyId/likes')
+  async getStoryLikes(@Param('storyId') storyId: string) {
+    const story = await this.storyService.findStory(storyId);
+    return { storyLike: story?._count.storyLike || 0, id: story?.id };
+  }
+  @Get('/:storyId/isliked')
+  @UseGuards(JwtAuthGuard)
+  async checkstorylike(@Param('storyId') storyId: string, @Req() req: Request) {
+    const { userId }: any = req.user;
+    const isLiked = await this.storyService.findLike(userId, storyId);
+    return isLiked ? { id: isLiked.id, liked: true } : { liked: false };
+  }
+  @Post('/:storyId/like')
+  @UseGuards(JwtAuthGuard)
+  async updateStoryLike(
+    @Param('storyId') storyId: string,
+    @Req() req: Request,
+  ) {
+    const { userId }: any = req.user;
+    const storyLikes = await this.storyService.updateLikes(storyId, userId);
+    return storyLikes;
+  }
+  @Delete('/:storyId/dislike')
+  @UseGuards(JwtAuthGuard)
+  async updateStoryLikes(
+    @Param('storyId') storyId: string,
+    @Req() req: Request,
+  ) {
+    const { userId }: any = req.user;
+    const storyLikes = await this.storyService.deleteLike(storyId, userId);
+    return storyLikes;
   }
 }

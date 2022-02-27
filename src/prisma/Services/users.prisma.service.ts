@@ -26,6 +26,12 @@ export class UserPrismaService {
             },
           },
         },
+        _count: {
+          select: {
+            followers: true,
+            followedUser: true,
+          },
+        },
         userId: true,
         username: true,
         photo: true,
@@ -38,5 +44,17 @@ export class UserPrismaService {
     data: Prisma.UsersUpdateInput;
   }) {
     return await this.prisma.users.update(params);
+  }
+  async followNewUser(data: Prisma.followersCreateInput) {
+    return await this.prisma.followers.create({ data });
+  }
+  async unfollowUser(where: Prisma.followersWhereInput) {
+    const userTounfollow = await this.prisma.followers.findFirst({ where });
+    return await this.prisma.followers.delete({
+      where: { id: userTounfollow?.id },
+    });
+  }
+  async findFollower(where: Prisma.followersWhereInput) {
+    return await this.prisma.followers.findFirst({ where });
   }
 }
